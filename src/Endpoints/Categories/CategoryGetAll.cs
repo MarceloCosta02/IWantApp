@@ -3,7 +3,7 @@ using IWantApp.Domain.Response;
 
 namespace IWantApp.Endpoints.Categories;
 
-public class CategoryGetAll
+public static class CategoryGetAll
 {
     public static string Template => "/categories";
 

@@ -1,10 +1,12 @@
 ﻿using Flunt.Notifications;
 using IWantApp.Domain.Models.Products;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace IWantApp.Context
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -13,6 +15,9 @@ namespace IWantApp.Context
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            // Chamando o OnModelCreating da classe pai que é o IdentityDbContext <Importante>
+            base.OnModelCreating(builder);
+
             builder.Ignore<Notification>();
 
             builder.Entity<Product>()

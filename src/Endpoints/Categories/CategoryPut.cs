@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IWantApp.Endpoints.Categories;
 
-public class CategoryPut
+public static class CategoryPut
 {
     public static string Template => "/categories{id:guid}";
 

@@ -4,7 +4,7 @@ using IWantApp.Domain.Request;
 
 namespace IWantApp.Endpoints.Categories;
 
-public class CategoryPost
+public static class CategoryPost
 {
     public static string Template => "/categories";
 
