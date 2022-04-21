@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using IWantApp.Domain.Interfaces;
 using IWantApp.Domain.Request;
 using IWantApp.Domain.Response;
 using Microsoft.AspNetCore.Identity;
@@ -15,23 +16,11 @@ public static class EmployeeGetAll
 
     public static Delegate Handle => Action;
 
-    public static IResult Action(int? page, int? rows, IConfiguration configuration)
+    public static IResult Action(int? page, int? rows, IEmployeeRepository employeeRepository)
     {
         if (page == null || rows == null)
-            return Results.BadRequest("Favor informar a página e a quantidade de linhas");
+            return Results.BadRequest("Favor informar a página e a quantidade de linhas");       
 
-        var db = new SqlConnection(configuration["ConnectionString:IWantDb"]);
-
-        var query = 
-            @"SELECT Email, ClaimValue as Name
-                FROM AspNetUsers u
-                INNER JOIN AspNetUserClaims c
-                ON u.Id = c.UserId AND c.ClaimType = 'Name'
-              ORDER BY c.ClaimType 
-              OFFSET (@page -1 ) * @rows FETCH NEXT @rows ROWS ONLY";
-
-        var employees = db.Query<EmployeeResponse>(query, new { page, rows });
-
-        return Results.Ok(employees);
+        return Results.Ok(employeeRepository.QueryAllUsersWithClaimName(page.Value, rows.Value));
     }
 }

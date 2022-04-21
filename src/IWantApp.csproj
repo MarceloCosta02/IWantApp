@@ -19,6 +19,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\IWantApp.Domain\IWantApp.Domain.csproj" />
+		<ProjectReference Include="..\IWantApp.Infra\IWantApp.Infra.csproj" />
 	</ItemGroup>
 
 </Project>
