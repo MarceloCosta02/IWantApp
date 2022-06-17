@@ -1,7 +1,5 @@
 ﻿using IWantApp.Context;
-using IWantApp.Domain.Models.Products;
 using IWantApp.Domain.Request;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IWantApp.Endpoints.Categories;
@@ -14,7 +12,6 @@ public static class CategoryPut
 
     public static Delegate Handle => Action;
 
-    [Authorize]
     public static IResult Action([FromRoute] Guid id, CategoryRequest categoryRequest, ApplicationDbContext context)
     {
         var category = context.Categories.Where(c => c.Id == id).FirstOrDefault();

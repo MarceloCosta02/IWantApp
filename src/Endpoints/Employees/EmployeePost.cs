@@ -1,5 +1,4 @@
 ﻿using IWantApp.Domain.Request;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
@@ -13,7 +12,6 @@ public static class EmployeePost
 
     public static Delegate Handle => Action;
 
-    [Authorize]
     public static IResult Action(EmployeeRequest employeeRequest, UserManager<IdentityUser> userManager)
     {
         var user = new IdentityUser { UserName = employeeRequest.Email, Email = employeeRequest.Email };
