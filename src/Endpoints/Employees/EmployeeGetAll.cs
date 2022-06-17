@@ -1,4 +1,5 @@
 ﻿using IWantApp.Domain.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IWantApp.Endpoints.Employees;
 
@@ -10,6 +11,7 @@ public static class EmployeeGetAll
 
     public static Delegate Handle => Action;
 
+    [Authorize(Policy = "EmployeePolicy")]
     public static IResult Action(int? page, int? rows, IEmployeeRepository employeeRepository)
     {
         if (page == null || rows == null)
