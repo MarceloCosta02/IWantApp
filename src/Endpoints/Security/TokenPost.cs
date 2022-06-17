@@ -44,7 +44,8 @@ public static class TokenPost
             SigningCredentials =
                 new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             Audience = configuration["JwtBearerTokenSettings:Audience"],
-            Issuer = configuration["JwtBearerTokenSettings:Issuer"]
+            Issuer = configuration["JwtBearerTokenSettings:Issuer"],
+            Expires = DateTime.UtcNow.AddHours(3)
         };
 
         var tokenHandler = new JwtSecurityTokenHandler();
