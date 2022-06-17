@@ -1,4 +1,5 @@
 ﻿using IWantApp.Domain.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -15,6 +16,7 @@ public static class TokenPost
 
     public static Delegate Handle => Action;
 
+    [AllowAnonymous]
     public static IResult Action(LoginRequest loginRequest, IConfiguration configuration ,UserManager<IdentityUser> userManager)
     {
         var user = userManager.FindByEmailAsync(loginRequest.Email).Result;
@@ -35,7 +37,7 @@ public static class TokenPost
             }),
             SigningCredentials =
                 new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-            Audience = configuration["JwtBearerTokenSettings:Audience"],
+            //Audience = configuration["JwtBearerTokenSettings:Audience"],
             Issuer = configuration["JwtBearerTokenSettings:Issuer"]
         };
 

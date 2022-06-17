@@ -1,10 +1,4 @@
-﻿using Dapper;
-using IWantApp.Domain.Interfaces;
-using IWantApp.Domain.Request;
-using IWantApp.Domain.Response;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Data.SqlClient;
-using System.Security.Claims;
+﻿using IWantApp.Domain.Interfaces;
 
 namespace IWantApp.Endpoints.Employees;
 
