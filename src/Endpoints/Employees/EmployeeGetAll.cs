@@ -1,5 +1,4 @@
 ﻿using IWantApp.Domain.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 
 namespace IWantApp.Endpoints.Employees;
 

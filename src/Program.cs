@@ -4,11 +4,6 @@ using IWantApp.Endpoints.Categories;
 using IWantApp.Endpoints.Employees;
 using IWantApp.Endpoints.Security;
 using IWantApp.Infra.Data;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 

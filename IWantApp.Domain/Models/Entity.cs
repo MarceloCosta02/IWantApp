@@ -1,6 +1,4 @@
-﻿using Flunt.Notifications;
-
-namespace IWantApp.Domain.Models;
+﻿namespace IWantApp.Domain.Models;
 
 public abstract class Entity : Notifiable<Notification>
 {

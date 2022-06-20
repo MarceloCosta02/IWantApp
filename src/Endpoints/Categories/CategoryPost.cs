@@ -1,8 +1,6 @@
 ﻿using IWantApp.Context;
 using IWantApp.Domain.Models.Products;
 using IWantApp.Domain.Request;
-using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
 
 namespace IWantApp.Endpoints.Categories;
 

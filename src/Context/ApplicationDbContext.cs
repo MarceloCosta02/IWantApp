@@ -1,39 +1,34 @@
-﻿using Flunt.Notifications;
-using IWantApp.Domain.Models.Products;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using IWantApp.Domain.Models.Products;
 
-namespace IWantApp.Context
+namespace IWantApp.Context;
+
+public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public DbSet<Product> Products { get; set; }
+    public DbSet<Category> Categories { get; set; }
+
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        public DbSet<Product> Products { get; set; }
-        public DbSet<Category> Categories { get; set; }
+        // Chamando o OnModelCreating da classe pai que é o IdentityDbContext <Importante>
+        base.OnModelCreating(builder);
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+        builder.Ignore<Notification>();
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            // Chamando o OnModelCreating da classe pai que é o IdentityDbContext <Importante>
-            base.OnModelCreating(builder);
+        builder.Entity<Product>()
+            .Property(p => p.Description).HasMaxLength(255);
 
-            builder.Ignore<Notification>();
+        builder.Entity<Product>()
+           .Property(p => p.Name).IsRequired();
 
-            builder.Entity<Product>()
-                .Property(p => p.Description).HasMaxLength(255);
+        builder.Entity<Category>()
+           .Property(c => c.Name).IsRequired();
+    }
 
-            builder.Entity<Product>()
-               .Property(p => p.Name).IsRequired();
-
-            builder.Entity<Category>()
-               .Property(c => c.Name).IsRequired();
-        }
-
-        protected override void ConfigureConventions(ModelConfigurationBuilder configuration)
-        {
-            configuration.Properties<string>()
-                .HaveMaxLength(100);
-        }
+    protected override void ConfigureConventions(ModelConfigurationBuilder configuration)
+    {
+        configuration.Properties<string>()
+            .HaveMaxLength(100);
     }
 }

@@ -1,6 +1,5 @@
 ﻿using IWantApp.Context;
 using IWantApp.Domain.Response;
-using Microsoft.EntityFrameworkCore;
 
 namespace IWantApp.Endpoints.Categories;
 
