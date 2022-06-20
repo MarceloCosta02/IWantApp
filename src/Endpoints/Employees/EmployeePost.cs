@@ -14,12 +14,12 @@ public static class EmployeePost
     public static Delegate Handle => Action;
 
     [Authorize(Policy = "EmployeeMasterPolicy")]
-    public static IResult Action(EmployeeRequest employeeRequest, HttpContext httpContext, UserManager<IdentityUser> userManager)
+    public static async Task<IResult> Action(EmployeeRequest employeeRequest, HttpContext httpContext, UserManager<IdentityUser> userManager)
     {
         var newUser = new IdentityUser { UserName = employeeRequest.Email, Email = employeeRequest.Email };
         var userId = httpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
-        var result = userManager.CreateAsync(newUser, employeeRequest.Password).Result;
+        var result = await userManager.CreateAsync(newUser, employeeRequest.Password);
 
         if (!result.Succeeded)
             return Results.ValidationProblem(result.Errors.ConvertToProblemDetails());
@@ -31,7 +31,7 @@ public static class EmployeePost
             new Claim("CreatedBy", userId)
         };
 
-        var claimResult = userManager.AddClaimsAsync(newUser, userClaims).Result;
+        var claimResult = await userManager.AddClaimsAsync(newUser, userClaims);
 
         if(!claimResult.Succeeded)
             return Results.BadRequest(claimResult.Errors.FirstOrDefault());     

@@ -12,11 +12,13 @@ public static class EmployeeGetAll
     public static Delegate Handle => Action;
 
     [Authorize(Policy = "EmployeePolicy")]
-    public static IResult Action(int? page, int? rows, IEmployeeRepository employeeRepository)
+    public static async Task<IResult> Action(int? page, int? rows, IEmployeeRepository employeeRepository)
     {
         if (page == null || rows == null)
-            return Results.BadRequest("Favor informar a página e a quantidade de linhas");       
+            return Results.BadRequest("Favor informar a página e a quantidade de linhas");
 
-        return Results.Ok(employeeRepository.QueryAllUsersWithClaimName(page.Value, rows.Value));
+        var result = await employeeRepository.QueryAllUsersWithClaimNameAsync(page.Value, rows.Value);
+
+        return Results.Ok(result);
     }
 }

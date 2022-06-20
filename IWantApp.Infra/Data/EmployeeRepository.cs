@@ -15,7 +15,7 @@ namespace IWantApp.Infra.Data
             _configuration = configuration;
         }
 
-        public IEnumerable<EmployeeResponse> QueryAllUsersWithClaimName(int page, int rows)
+        public async Task<IEnumerable<EmployeeResponse>> QueryAllUsersWithClaimNameAsync(int page, int rows)
         {
             var db = new SqlConnection(_configuration["ConnectionString:IWantDb"]);
 
@@ -27,7 +27,7 @@ namespace IWantApp.Infra.Data
               ORDER BY Name
               OFFSET (@page -1 ) * @rows ROWS FETCH NEXT @rows ROWS ONLY";
 
-            return db.Query<EmployeeResponse>(query, new { page, rows });
+            return await db.QueryAsync<EmployeeResponse>(query, new { page, rows });
         }       
     }
 }

@@ -4,5 +4,5 @@ namespace IWantApp.Domain.Interfaces;
 
 public interface IEmployeeRepository
 {
-    IEnumerable<EmployeeResponse> QueryAllUsersWithClaimName(int page, int rows);
+    Task<IEnumerable<EmployeeResponse>> QueryAllUsersWithClaimNameAsync(int page, int rows);
 }
