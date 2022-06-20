@@ -14,11 +14,12 @@ public static class EmployeePost
     public static Delegate Handle => Action;
 
     [Authorize(Policy = "EmployeeMasterPolicy")]
-    public static IResult Action(EmployeeRequest employeeRequest, UserManager<IdentityUser> userManager)
+    public static IResult Action(EmployeeRequest employeeRequest, HttpContext httpContext, UserManager<IdentityUser> userManager)
     {
-        var user = new IdentityUser { UserName = employeeRequest.Email, Email = employeeRequest.Email };
+        var newUser = new IdentityUser { UserName = employeeRequest.Email, Email = employeeRequest.Email };
+        var userId = httpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
-        var result = userManager.CreateAsync(user, employeeRequest.Password).Result;
+        var result = userManager.CreateAsync(newUser, employeeRequest.Password).Result;
 
         if (!result.Succeeded)
             return Results.ValidationProblem(result.Errors.ConvertToProblemDetails());
@@ -26,14 +27,15 @@ public static class EmployeePost
         var userClaims = new List<Claim>
         {
             new Claim("EmployeeCode", employeeRequest.EmployeeCode),
-            new Claim("Name", employeeRequest.Name)
+            new Claim("Name", employeeRequest.Name),
+            new Claim("CreatedBy", userId)
         };
 
-        var claimResult = userManager.AddClaimsAsync(user, userClaims).Result;
+        var claimResult = userManager.AddClaimsAsync(newUser, userClaims).Result;
 
         if(!claimResult.Succeeded)
             return Results.BadRequest(claimResult.Errors.FirstOrDefault());     
 
-        return Results.Created($"/employee/{ user.Id }", user.Id);
+        return Results.Created($"/employee/{ newUser.Id }", newUser.Id);
     }
 }
