@@ -7,13 +7,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Using Include="Flunt.Validations"/>
-		<Using Include="Flunt.Notifications"/>
+		<Using Include="Flunt.Validations" />
+		<Using Include="Flunt.Notifications" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Dapper" Version="2.0.123" />
 		<PackageReference Include="Flunt" Version="2.0.5" />
+		<PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
+		<PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.7.1" />
 	</ItemGroup>
 
 </Project>

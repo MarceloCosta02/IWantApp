@@ -5,9 +5,26 @@ using IWantApp.Endpoints.Employees;
 using IWantApp.Endpoints.Security;
 using IWantApp.Infra.Data;
 using Microsoft.AspNetCore.Diagnostics;
+using Serilog;
+using Serilog.Sinks.MSSqlServer;
 using System.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
+
+#pragma warning disable CS0618 // Type or member is obsolete
+builder.WebHost.UseSerilog((context, configuration) =>
+{
+    configuration
+        .WriteTo.Console()
+        .WriteTo.MSSqlServer(
+            context.Configuration["ConnectionString:IWantDb"],
+                sinkOptions: new MSSqlServerSinkOptions()
+                {
+                    AutoCreateSqlTable = true,
+                    TableName = "LogAPI"
+                });
+});
+#pragma warning restore CS0618 // Type or member is obsolete
 
 builder.Services.AddSqlServer<ApplicationDbContext>(builder.Configuration["ConnectionString:IWantDb"]);
 
