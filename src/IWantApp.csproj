@@ -7,16 +7,16 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Using Include="Flunt.Notifications"/>
-		<Using Include="Microsoft.AspNetCore.Identity"/>
-		<Using Include="Microsoft.EntityFrameworkCore"/>
-		<Using Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore"/>
-		<Using Include="Microsoft.AspNetCore.Authentication.JwtBearer"/>		
-		<Using Include="Microsoft.AspNetCore.Authorization"/>
-		<Using Include="Microsoft.IdentityModel.Tokens"/>
-		<Using Include="System.IdentityModel.Tokens.Jwt"/>
-		<Using Include="System.Security.Claims"/>
-		<Using Include="System.Text"/>
+		<Using Include="Flunt.Notifications" />
+		<Using Include="Microsoft.AspNetCore.Identity" />
+		<Using Include="Microsoft.EntityFrameworkCore" />
+		<Using Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+		<Using Include="Microsoft.AspNetCore.Authentication.JwtBearer" />		
+		<Using Include="Microsoft.AspNetCore.Authorization" />
+		<Using Include="Microsoft.IdentityModel.Tokens" />
+		<Using Include="System.IdentityModel.Tokens.Jwt" />
+		<Using Include="System.Security.Claims" />
+		<Using Include="System.Text" />
 	</ItemGroup>
 
 	<ItemGroup>
