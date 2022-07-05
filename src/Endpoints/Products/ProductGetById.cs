@@ -13,8 +13,7 @@ public static class ProductGetById
 
     public static Delegate Handle => Action;
 
-    //[Authorize(Policy = "EmployeePolicy")]    
-    [AllowAnonymous]
+    [Authorize(Policy = "EmployeePolicy")]    
     public static async Task<IResult> Action(ApplicationDbContext context, [FromRoute] Guid id)
     {
         var product = context
