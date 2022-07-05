@@ -25,7 +25,7 @@ public static class ProductGetById
         if (product == null)
             return Results.BadRequest($"O produto com o id: {id} não está cadastrado");
 
-        var results = new ProductResponse(product.Id, product.Name, product.Category.Name, product.Description, product.HasStock, product.Active);
+        var results = new ProductResponse(product.Id, product.Name, product.Category.Name, product.Description, product.HasStock, product.Price, product.Active);
 
         return Results.Ok(results);
     }
