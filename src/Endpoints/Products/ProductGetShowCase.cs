@@ -13,15 +13,25 @@ public static class ProductGetShowCase
     public static Delegate Handle => Action;
 
     [AllowAnonymous]
-    public static async Task<IResult> Action(int page = 1, int row = 1, string orderBy = "name", ApplicationDbContext context = null)
+    public static async Task<IResult> Action(ApplicationDbContext context, int page = 1, int row = 1, string orderBy = "name")
     {
-        var queryBase = context.Products.Include(p => p.Category)
-            .Where(p => p.HasStock && p.Category.Active);
+        if (row > 10)
+            return Results.Problem(title: "Row with max 10", statusCode: 400);
 
-        if (orderBy == "name")
-            queryBase = queryBase.OrderBy(p => p.Name);
-        else
-            queryBase = queryBase.OrderBy(p => p.Price);
+        var queryBase = context.Products.Include(p => p.Category)
+            .Where(p => p.HasStock && p.Category.Active); 
+        
+        switch (orderBy)
+        {
+            case "name":
+                queryBase = queryBase.OrderBy(p => p.Name);
+                break;
+            case "price":
+                queryBase = queryBase.OrderBy(p => p.Price);
+                break;
+            default:
+                return Results.Problem(title: "Order only by price or name", statusCode: 400);
+        }
 
         var queryFilter = queryBase.Skip((page - 1) * row).Take(row);
         
