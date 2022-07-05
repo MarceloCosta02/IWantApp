@@ -31,6 +31,7 @@ public class Product : Entity
         var contract = new Contract<Product>()
             .IsNotNullOrEmpty(Name, "Name", "Name is required")
             .IsGreaterOrEqualsThan(Name, 3, "Name should be greater or equals than 3")
+            .IsNotNull(Category, "Category not found")
             .IsNotNullOrEmpty(Description, "Description is required")
             .IsGreaterOrEqualsThan(Description, 3, "Description should be greater or equals than 3")
             .IsNotNullOrEmpty(CreatedBy, "CreatedBy", "CreatedBy is required")

@@ -21,6 +21,10 @@ public static class ProductGetById
             .Include(p => p.Category)
             .FirstOrDefault(p => p.Id == id);
 
+
+        if (product == null)
+            return Results.BadRequest($"O produto com o id: {id} não está cadastrado");
+
         var results = new ProductResponse(product.Id, product.Name, product.Category.Name, product.Description, product.HasStock, product.Active);
 
         return Results.Ok(results);
