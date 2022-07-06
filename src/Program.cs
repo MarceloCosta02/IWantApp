@@ -1,6 +1,8 @@
 using IWantApp.Context;
 using IWantApp.Domain.Interfaces;
+using IWantApp.Domain.Users;
 using IWantApp.Endpoints.Categories;
+using IWantApp.Endpoints.Clients;
 using IWantApp.Endpoints.Employees;
 using IWantApp.Endpoints.Security;
 using IWantApp.Infra.Data;
@@ -77,6 +79,7 @@ builder.Services.AddAuthentication(x =>
 });
 
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<UserCreator>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -108,6 +111,8 @@ app.MapMethods(ProductPost.Template, ProductPost.Methods, ProductPost.Handle);
 app.MapMethods(ProductGetAll.Template, ProductGetAll.Methods, ProductGetAll.Handle);
 app.MapMethods(ProductGetById.Template, ProductGetById.Methods, ProductGetById.Handle);
 app.MapMethods(ProductGetShowCase.Template, ProductGetShowCase.Methods, ProductGetShowCase.Handle);
+
+app.MapMethods(ClientPost.Template, ClientPost.Methods, ClientPost.Handle);
 
 app.UseExceptionHandler("/error");
 
