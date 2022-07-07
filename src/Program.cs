@@ -57,6 +57,11 @@ builder.Services.AddAuthorization((options =>
     {
         policy.RequireAuthenticatedUser().RequireClaim("EmployeeCode", "002");
     });
+
+    options.AddPolicy("CpfPolicy", policy =>
+    {
+        policy.RequireAuthenticatedUser().RequireClaim("Cpf");
+    });
 }));
 
 builder.Services.AddAuthentication(x =>
