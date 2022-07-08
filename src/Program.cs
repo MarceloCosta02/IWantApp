@@ -8,10 +8,13 @@ using IWantApp.Endpoints.Security;
 using IWantApp.Infra.Data;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
 using System.Data.SqlClient;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,6 +65,14 @@ builder.Services.AddAuthorization((options =>
     {
         policy.RequireAuthenticatedUser().RequireClaim("Cpf");
     });
+
+    options.AddPolicy("OrderPolicy", policy =>
+    {
+        policy.RequireAssertion(context =>
+                context.User.HasClaim(c =>
+                    (c.Type == "Cpf" ||
+                     c.Type == "EmployeeCode")));
+     });
 }));
 
 builder.Services.AddAuthentication(x =>
@@ -117,6 +128,10 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
+
+builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -149,6 +164,7 @@ app.MapMethods(ClientPost.Template, ClientPost.Methods, ClientPost.Handle);
 app.MapMethods(ClientGet.Template, ClientGet.Methods, ClientGet.Handle);
 
 app.MapMethods(OrderPost.Template, OrderPost.Methods, OrderPost.Handle);
+app.MapMethods(OrderGetByAuth.Template, OrderGetByAuth.Methods, OrderGetByAuth.Handle);
 
 app.UseExceptionHandler("/error");
 

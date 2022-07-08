@@ -18,7 +18,7 @@ public static class OrderPost
     public static async Task<IResult> Action(OrderRequest orderRequest, HttpContext httpContext, ApplicationDbContext context)
     {
         var clientId = httpContext.User.Claims
-            .First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            .First(c => c.Type == ClaimTypes.NameIdentifier).Value;      
 
         var clientName = httpContext.User.Claims
             .First(c => string.Equals(c.Type, "name", StringComparison.OrdinalIgnoreCase)).Value;
