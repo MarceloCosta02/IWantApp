@@ -24,8 +24,12 @@ public class TokenPost
         if (user == null)
             return Results.BadRequest();
 
-        if (await userManager.CheckPasswordAsync(user, loginRequest.Password))
+        var result = await userManager.CheckPasswordAsync(user, loginRequest.Password);
+        if (!result)
+        {
+            log.LogInformation("\n\n" + result + "\n\n");
             return Results.BadRequest();
+        }
 
         var claims = await userManager.GetClaimsAsync(user);
         var subject = new ClaimsIdentity(new Claim[]
